@@ -1,7 +1,17 @@
+# Python cache
 __pycache__/
 *.pyc
+
+# Environment
 .env
+
+# Raw and processed datasets
 data_raw/
+data_processed/
+
+# ML outputs
 outputs/
+
+# Models
 models/*.h5
 models/*.pkl
