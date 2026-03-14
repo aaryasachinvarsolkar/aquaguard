@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.env
+data_raw/
+outputs/
+models/*.h5
+models/*.pkl
