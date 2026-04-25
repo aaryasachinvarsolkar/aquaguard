@@ -1,48 +1,22 @@
 import pandas as pd
-from xgboost import XGBClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
 import joblib
+from xgboost import XGBClassifier
 
-print("Loading feature dataset...")
+df = pd.read_csv("data_processed/training_dataset.csv")
 
-df = pd.read_csv("data_processed/features_dataset.csv")
+df["bloom"] = (df["chlorophyll"] > 4).astype(int)
 
-# create label automatically
-df["bloom_risk"] = (
-    (df["chlorophyll"] > df["chlorophyll"].quantile(0.75)) &
-    (df["temperature"] > df["temperature"].mean())
-).astype(int)
+X = df[["temperature","chlorophyll","turbidity"]]
+y = df["bloom"]
 
-features = [
-    "temperature",
-    "chlorophyll",
-    "species_count",
-    "temperature_anomaly",
-    "chlorophyll_growth",
-]
-
-X = df[features]
-y = df["bloom_risk"]
-
-print("Splitting dataset...")
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+model = XGBClassifier(
+    n_estimators=400,
+    max_depth=7,
+    learning_rate=0.05
 )
 
-print("Training XGBoost model...")
+model.fit(X,y)
 
-model = XGBClassifier()
+joblib.dump(model,"models/bloom_model.pkl")
 
-model.fit(X_train, y_train)
-
-predictions = model.predict(X_test)
-
-accuracy = accuracy_score(y_test, predictions)
-
-print("Model accuracy:", accuracy)
-
-joblib.dump(model, "models/bloom_model.pkl")
-
-print("Bloom model saved.")
+print("Bloom model trained")

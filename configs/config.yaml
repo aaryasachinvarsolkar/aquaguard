@@ -1,0 +1,79 @@
+gee:
+  project: ${GEE_PROJECT}
+
+  modis:
+    collection: "NASA/OCEANDATA/MODIS-Aqua/L3SMI"
+    chlorophyll_band: "chlor_a"
+    buffer_meters: 50000
+    scale: 4000
+    lookback_days: 30
+    turbidity_intercept: 0.05
+    turbidity_slope: 0.08
+
+  oisst:
+    collection: "NOAA/CDR/OISST/V2_1"
+    sst_band: "sst"
+    scale: 25000
+
+  sentinel1:
+    collection: "COPERNICUS/S1_GRD"
+    sar_band: "VV"
+    scale: 1000
+    lookback_days: 30
+    oil_spill_threshold: -20
+
+risk_calculation:
+  chlorophyll_high: 5.0
+  chlorophyll_moderate: 2.5
+  temperature_high: 31.0
+  temperature_moderate: 28.5
+  turbidity_high: 0.8
+  turbidity_moderate: 0.4
+  weight_chlorophyll: 0.50
+  weight_temperature: 0.30
+  weight_turbidity: 0.20
+  label_high_threshold: 0.40
+  label_moderate_threshold: 0.18
+
+oil_spill_model:
+  wind_proxy_base: 8.0
+  wind_proxy_chl_factor: 0.5
+  wind_proxy_min: 1.0
+
+agent:
+  max_iterations: 10
+  default_groq_model: "llama-3.3-70b-versatile"
+  default_gemini_model: "gemini-1.5-flash"
+
+gbif:
+  occurrence_url: "https://api.gbif.org/v1/occurrence/search"
+  species_url: "https://api.gbif.org/v1/species"
+  search_radius_deg: 1.5
+  limit: 50
+
+iucn:
+  base_url: "https://apiv4.iucnredlist.org/api/v4"
+  threatened_categories:
+    - "CR"   # Critically Endangered
+    - "EN"   # Endangered
+    - "VU"   # Vulnerable
+    - "NT"   # Near Threatened
+
+noaa:
+  sst_base_url: "https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr"
+
+alert:
+  smtp_host: ${SMTP_HOST}
+  smtp_port: ${SMTP_PORT}
+  sender: ${ALERT_EMAIL_SENDER}
+  receiver: ${ALERT_EMAIL_RECEIVER}
+
+models:
+  risk_model_path: "models/risk_model.pkl"
+  bloom_model_path: "models/bloom_model.pkl"
+  oil_spill_model_path: "models/oil_spill_model.pkl"
+  anomaly_model_path: "models/anomaly_model.pkl"
+  features:
+    - "temperature"
+    - "chlorophyll"
+    - "turbidity"

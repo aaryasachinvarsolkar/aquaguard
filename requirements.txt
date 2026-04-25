@@ -3,5 +3,16 @@ numpy
 scikit-learn
 xgboost
 lightgbm
+fastapi
+uvicorn
+websockets
+requests
 joblib
-matplotlib
+geopy
+schedule
+earthengine-api
+tensorflow
+pyyaml
+python-dotenv
+openai
+shap

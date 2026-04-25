@@ -1,0 +1,23 @@
+{
+  "features": [
+    "temperature",
+    "chlorophyll",
+    "turbidity",
+    "chl_log",
+    "chl_temp",
+    "temp_anomaly",
+    "turb_chl_ratio",
+    "chl_squared",
+    "temp_chl_bloom_idx",
+    "is_tropical",
+    "lat_abs"
+  ],
+  "sar_features": [
+    "sar_vv",
+    "temperature",
+    "chlorophyll",
+    "wind_speed",
+    "wave_height",
+    "sar_wind_ratio"
+  ]
+}

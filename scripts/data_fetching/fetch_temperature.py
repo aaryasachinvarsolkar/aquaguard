@@ -1,34 +1,13 @@
 import requests
 import os
 
-print("Downloading Sea Surface Temperature data...")
+url = "https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/202401/oisst-avhrr-v02r01.20240101.nc"
 
-# create folder
-os.makedirs("../../data_raw/temperature", exist_ok=True)
+response = requests.get(url)
 
-# Working ERDDAP dataset query
-url = (
-    "https://coastwatch.pfeg.noaa.gov/erddap/griddap/"
-    "erdHadISST.csv?"
-    "sst[(2020-01-01T00:00:00Z)][(-10):1:(10)][(60):1:(80)]"
-)
+os.makedirs("data_raw/ocean", exist_ok=True)
 
-try:
-    response = requests.get(url)
+with open("data_raw/ocean/sst.nc","wb") as f:
+    f.write(response.content)
 
-    if response.status_code == 200:
-
-        file_path = "../../data_raw/temperature/temperature_data.csv"
-
-        with open(file_path, "wb") as f:
-            f.write(response.content)
-
-        print("Temperature dataset downloaded successfully")
-        print("Saved at:", file_path)
-
-    else:
-        print("Download failed:", response.status_code)
-        print(response.text)
-
-except Exception as e:
-    print("Error:", e)
+print("Temperature data downloaded")

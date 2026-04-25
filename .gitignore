@@ -1,6 +1,7 @@
 # Python cache
 __pycache__/
 *.pyc
+*.pyo
 
 # Environment
 .env
@@ -15,3 +16,10 @@ outputs/
 # Models
 models/*.h5
 models/*.pkl
+models/*.keras
+
+# IDE / Editor
+.vscode/
+
+# Test cache
+.pytest_cache/
